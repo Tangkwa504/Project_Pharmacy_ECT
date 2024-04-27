@@ -1,0 +1,4 @@
+enum FieldChangePassword {
+  currentPassword,
+  newPassword,
+}

@@ -1,0 +1,4 @@
+enum FieldBankTransfer {
+  slipDateTime,
+  payPrice,
+}

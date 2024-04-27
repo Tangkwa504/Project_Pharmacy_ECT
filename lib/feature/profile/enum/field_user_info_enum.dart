@@ -1,0 +1,17 @@
+enum FieldUserInfo {
+  email,
+  password,
+  confirmPassword,
+  role,
+  name,
+  address,
+  phone,
+  nameStore,
+  addressStore,
+  phoneStore,
+  timeOpening,
+  timeClosing,
+  licensePharmacy,
+  licensePharmacyStore,
+  allergy,
+}
