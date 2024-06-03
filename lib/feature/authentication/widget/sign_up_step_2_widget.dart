@@ -324,7 +324,7 @@ class _SignUpStep2WidgetState extends ConsumerState<SignUpStep2Widget> {
                 isShowLabelField: true,
                 maxLines: 5,
                 counterText: '',
-                placeholder: "ระบุยาที่แพ้หรืออาหารที่แพ้ (ถ้ามี)",
+                placeholder: "ระบุยาที่แพ้หรืออาหารที่แพ้หรือกรอก - ถ้าไม่มี",
                 validator: (value) {
                   final validators = Validators.combine(
                     [
@@ -431,9 +431,15 @@ class _SignUpStep2WidgetState extends ConsumerState<SignUpStep2Widget> {
                   isEnabled: true,
                   initialValue: false,
                   onChanged: (val) {
-                    setState(() {
-                      isChecked = true;
-                    });
+                    if (val == true) {
+                      setState(() {
+                        isChecked = true;
+                      });
+                    } else {
+                      setState(() {
+                        isChecked = false;
+                      });
+                    }
                   },
                 ),
                 Text(
@@ -463,22 +469,34 @@ class _SignUpStep2WidgetState extends ConsumerState<SignUpStep2Widget> {
                 Expanded(
                   child: BaseButton(
                     onTap: () async {
-                      if (isValidated && isChecked) {
+                      if (isValidated) {
                         if (isPharmacy) {
                           isRequiredLicensePharmacy =
                               licenseFile != null ? false : true;
                         }
+                        if (isChecked) {
+                          isRequiredProfile = imgProfile != null ? false : true;
 
-                        isRequiredProfile = imgProfile != null ? false : true;
+                          setState(() {});
 
-                        setState(() {});
+                          if (imgProfile != null) {
+                            if (isPharmacy && licenseFile == null) {
+                              return;
+                            }
 
-                        if (imgProfile != null) {
-                          if (isPharmacy && licenseFile == null) {
-                            return;
+                            widget.onTap(imgProfile, licenseFile);
                           }
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return BaseDialog(
+                                message: 'กรุณากดยินยอมให้ใช้ข้อมูล',
+                              );
+                            },
+                          );
 
-                          widget.onTap(imgProfile, licenseFile);
+                          return;
                         }
                       } else {
                         showDialog(
